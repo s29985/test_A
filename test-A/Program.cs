@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// DbContext and DI registration
+builder.Services.AddDbContext<test_A.Infrastructure.ClinicDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<test_A.Services.IPatientService, test_A.Services.PatientService>();
 
 var app = builder.Build();
 
